@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('troops', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('tribe');
+            $table->integer('lumber');
+            $table->integer('clay');
+            $table->integer('iron');
+            $table->integer('crop');
+            $table->integer('upkeep')->default(1);
+            $table->integer('speed')->nullable();
+            $table->integer('train_time');
             $table->timestamps();
         });
     }

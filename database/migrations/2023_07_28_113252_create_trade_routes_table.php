@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('trade_routes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('tribe');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->bigInteger('from_village_id');
+            $table->bigInteger('to_village_id');
+            $table->bigInteger('lumber');
+            $table->bigInteger('clay');
+            $table->bigInteger('iron');
+            $table->bigInteger('crop');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('trade_routes');
     }
 };

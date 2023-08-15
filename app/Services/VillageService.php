@@ -34,6 +34,23 @@ class VillageService
         return $villages;
     }
 
+    public function extractRes($text): array
+    {
+        $res = [];
+        preg_match('/Production per hour:(.*?)Troops/s', $text, $matches);
+        $dirtyResSection = $matches[1];
+        $cleanResSection = preg_replace('/[^\x20-\x7E]/', '', $dirtyResSection);
+
+        $pattern = '/([A-Z][a-z]+):\s+(\d+)/';
+        $matches = [];
+        preg_match_all($pattern, $cleanResSection, $matches);
+
+        for ($i = 0; $i < count($matches[1]); $i++) {
+            $res[strtolower($matches[1][$i])] = (int)$matches[2][$i];
+        }
+        return $res;
+    }
+
     public function seperateInputByIndex($data): \Illuminate\Support\Collection
     {
         $details = collect();

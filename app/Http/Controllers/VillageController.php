@@ -36,6 +36,7 @@ class VillageController extends Controller
         $request->validate([
             'name' => 'unique:villages'
         ]);
+        $text = $request->text;
 
         $villageData = $request->except('_token');
         $villageData['user_id'] = auth()->id();
@@ -74,7 +75,10 @@ class VillageController extends Controller
      */
     public function edit(Village $village)
     {
-        //
+        return view('village.edit')
+            ->with([
+                'village' => $village
+            ]);
     }
 
     /**
@@ -82,17 +86,23 @@ class VillageController extends Controller
      */
     public function update(Request $request, Village $village)
     {
-        $resources = request()->resources;
-        $village->updateRess($resources);
+        $resText = request()->res_text;
+        if (isset($resText)) {
+            $resources = $this->villageService->extractRes($resText);
+            $village->updateRess($resources);
+        } else {
+            $resources = request()->resources;
+            $village->updateRess($resources);
 
-        $incomingRoutes = $this->villageService->seperateInputByIndex($request->incomingTradeRoute)
-            ->filter(
-                fn($s) => $s['from_village_id'] != 'Select Village'
-            );
-        
-        $village->syncTroops(request()->village_troops);
+            $incomingRoutes = $this->villageService->seperateInputByIndex($request->incomingTradeRoute)
+                ->filter(
+                    fn($s) => $s['from_village_id'] != 'Select Village'
+                );
 
-        $village->syncIncomingRoutes($incomingRoutes);
+            $village->syncTroops(request()->village_troops);
+
+            $village->syncIncomingRoutes($incomingRoutes);
+        }
 
         return redirect()->route('villages.index');
     }

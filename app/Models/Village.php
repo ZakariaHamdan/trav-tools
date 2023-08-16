@@ -28,21 +28,18 @@ class Village extends Model
 
     public function updateRess(array $resources)
     {
-        $lumberDiff = ($resources['lumber'] - $this->lumber);
-        $clayDiff = $resources['clay'] - $this->clay;
-        $ironDiff = $resources['iron'] - $this->iron;
-        $cropDiff = $resources['crop'] - $this->crop;
-        
-        if (isset($resources['needed_lumber'])) {
-            $lumberDiff += $this->needed_lumber- $resources['needed_lumber'];
-            $clayDiff += $this->needed_clay - $resources['needed_clay'];
-            $ironDiff += $this->needed_iron - $resources['needed_iron'];
-            $cropDiff += $this->needed_crop - $resources['needed_crop'];
+        $res = ['lumber', 'clay', 'iron', 'crop'];
+
+        foreach ($res as $value) {
+            $resourceDiff = $resources[$value] - $this->{$value};
+
+            if (isset($resources["needed_$value"])) {
+                $resourceDiff += $this->{"needed_$value"} - $resources["needed_$value"];
+            }
+
+            $this->increment("net_$value", $resourceDiff);
         }
-        $this->increment('net_lumber', $lumberDiff);
-        $this->increment('net_clay', $clayDiff);
-        $this->increment('net_iron', $ironDiff);
-        $this->increment('net_crop', $cropDiff);
+
         $this->update($resources);
     }
 

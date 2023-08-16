@@ -28,10 +28,17 @@ class Village extends Model
 
     public function updateRess(array $resources)
     {
-        $lumberDiff = $resources['lumber'] - $this->lumber;
+        $lumberDiff = ($resources['lumber'] - $this->lumber);
         $clayDiff = $resources['clay'] - $this->clay;
         $ironDiff = $resources['iron'] - $this->iron;
         $cropDiff = $resources['crop'] - $this->crop;
+        
+        if (isset($resources['needed_lumber'])) {
+            $lumberDiff += $this->needed_lumber- $resources['needed_lumber'];
+            $clayDiff += $this->needed_clay - $resources['needed_clay'];
+            $ironDiff += $this->needed_iron - $resources['needed_iron'];
+            $cropDiff += $this->needed_crop - $resources['needed_crop'];
+        }
         $this->increment('net_lumber', $lumberDiff);
         $this->increment('net_clay', $clayDiff);
         $this->increment('net_iron', $ironDiff);
@@ -42,7 +49,7 @@ class Village extends Model
     public function syncTroops($villageTroops = [])
     {
         VillageTroop::where('village_id', $this->id)->delete();
-        foreach ($villageTroops as $troopId) {
+        foreach ($villageTroops ?? [] as $troopId) {
             VillageTroop::create([
                 'village_id' => $this->id,
                 'troop_id' => $troopId

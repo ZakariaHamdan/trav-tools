@@ -119,6 +119,8 @@ class VillageController extends Controller
             $route->delete();
         }
         $village->delete();
+
+        return redirect()->route('villages.index');
     }
 
     public function createMany()

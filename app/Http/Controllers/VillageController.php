@@ -20,7 +20,7 @@ class VillageController extends Controller
     {
         $villages = auth()->user()->villages;
         return view('village.index')->with([
-            'villages' => $villages
+            'villages' => $villages->sortBy('name')
         ]);
     }
 

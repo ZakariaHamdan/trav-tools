@@ -156,24 +156,24 @@
                     @foreach($outRoutes ?? [] as $route)
                         <tr>
                             <td>
-                                <input class="form-control" name="incomingTradeRoute[lumber][]"
-                                       value={{ $route->toVillage->name }} readonly>
+                                <input class="form-control" name="outTradeRoute[name][]"
+                                       value="{{ $route->toVillage->name }}" readonly>
                             </td>
                             <td>
-                                <input class="form-control" name="incomingTradeRoute[lumber][]"
-                                       value={{ $route->lumber }} readonly>
+                                <input class="form-control" name="outTradeRoute[lumber][]"
+                                       value="{{ $route->lumber }}" readonly>
                             </td>
                             <td>
-                                <input class="form-control" name="incomingTradeRoute[clay][]"
-                                       value={{ $route->clay }} readonly>
+                                <input class="form-control" name="outTradeRoute[clay][]"
+                                       value="{{ $route->clay }}" readonly>
                             </td>
                             <td>
-                                <input class="form-control" name="incomingTradeRoute[iron][]"
-                                       value={{ $route->iron }} readonly>
+                                <input class="form-control" name="outTradeRoute[iron][]"
+                                       value="{{ $route->iron }}" readonly>
                             </td>
                             <td>
-                                <input class="form-control" name="incomingTradeRoute[crop][]"
-                                       value={{ $route->crop }} readonly>
+                                <input class="form-control" name="outTradeRoute[crop][]"
+                                       value="{{ $route->crop }}" readonly>
                             </td>
                         </tr>
                     @endforeach

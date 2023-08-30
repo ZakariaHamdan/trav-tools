@@ -54,7 +54,7 @@ class Village extends Model
         }
     }
 
-    public function syncIncomingRoutes($incomingRoutes)
+    public function syncIncomingRoutes($incomingRoutes = [])
     {
         TradeRoute::where('to_village_id', $this->id)->get()->each(fn($s) => $s->delete());
         foreach ($incomingRoutes as $route) {

@@ -76,7 +76,7 @@ const calculateAvailable = () => {
 const calculateResourceEffects = (rowsSelector, availableResources, positive = true) => {
     document.querySelectorAll(`${rowsSelector} tbody tr`).forEach(row => {
         ['lumber', 'clay', 'iron', 'crop'].forEach(resource => {
-            const incomingValue = +(row.querySelector(`input[name='incomingTradeRoute[${resource}][]']`).value)
+            const incomingValue = +(row.querySelector(`input[name*='TradeRoute[${resource}][]']`).value)
             positive
                 ? availableResources[resource] += incomingValue
                 : availableResources[resource] -= incomingValue

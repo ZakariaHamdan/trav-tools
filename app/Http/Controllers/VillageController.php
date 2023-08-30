@@ -65,7 +65,7 @@ class VillageController extends Controller
                 'villages' => $villages,
                 'troops' => $troops,
                 'incomingRoutes' => $incomingRoutes,
-                'outRoutes' => $outRoutes,
+                'outRoutes' => $outRoutes->load('toVillage'),
                 'villageTroops' => $villageTroops,
             ]);
     }
@@ -113,7 +113,12 @@ class VillageController extends Controller
      */
     public function destroy(Village $village)
     {
-        //
+        $routes = $village->outRoutes;
+        $routes = $routes->merge($village->inRoutes);
+        foreach($routes as $route){
+            $route->delete();
+        }
+        $village->delete();
     }
 
     public function createMany()

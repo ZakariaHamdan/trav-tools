@@ -12,7 +12,12 @@ class TradeRouteController extends Controller
      */
     public function index()
     {
-        //
+        $routes = TradeRoute::all();
+        
+        return view('route.index')
+            ->with([
+                'routes' => $routes->load('toVillage', 'fromVillage')
+            ]);
     }
 
     /**

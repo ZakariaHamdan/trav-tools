@@ -63,8 +63,11 @@ class TradeRouteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TradeRoute $tradeRoute)
+    public function destroy($tradeRouteId)
     {
-        //
+        $tradeRoute = TradeRoute::find($tradeRouteId);
+        $tradeRoute->delete();
+        
+        return redirect()->route('routes.index');
     }
 }
